@@ -1,4 +1,6 @@
-﻿namespace LoggingKata
+﻿using System;
+
+namespace LoggingKata
 {
     /// <summary>
     /// Parses a POI file to locate all the Taco Bells
@@ -9,6 +11,7 @@
         
         public ITrackable Parse(string line)
         {
+            var tacoBell = new TacoBell();
             logger.LogInfo("Begin parsing");
 
             // Take your line and use line.Split(',') to split it up into an array of strings, separated by the char ','
@@ -22,23 +25,57 @@
                 return null; // TODO Implement
             }
 
-            // grab the latitude from your array at index 0
-            // grab the longitude from your array at index 1
-            // grab the name from your array at index 2
+            tacoBell.Name = ShouldParseName(line);
+            var point = new Point();
+            
+            point.Latitude = ShouldParseLatitude(line);
+            point.Longitude = ShouldParseLongitude(line);
+            tacoBell.Location=point;
+            return tacoBell;
 
-            // Your going to need to parse your string as a `double`
-            // which is similar to parsing a string as an `int`
 
-            // You'll need to create a TacoBell class
-            // that conforms to ITrackable
 
-            // Then, you'll need an instance of the TacoBell class
-            // With the name and point set correctly
-
-            // Then, return the instance of your TacoBell class
-            // Since it conforms to ITrackable
-
-            return null;
         }
+       
+
+        public double ShouldParseLatitude(string line)
+        {
+            var corridinates = line.Split(',');
+            return double.Parse(corridinates[0]);
+        }
+
+        public double ShouldParseLongitude(string line)
+        {
+            var corridinates = line.Split(',');
+            return double.Parse(corridinates[1]);
+           
+        }
+        public string ShouldParseName(string line)
+        {
+            var corridinates = line.Split(',');
+            return corridinates[2];
+
+        }
+
     }
 }
+
+// grab the latitude from your array at index 0//DONE
+
+// grab the longitude from your array at index 1//DONE
+// grab the name from your array at index 2//DONE
+
+// Your going to need to parse your string as a `double`
+// which is similar to parsing a string as an `int`
+
+// You'll need to create a TacoBell class
+// that conforms to ITrackable
+
+
+// Then, you'll need an instance of the TacoBell class
+// With the name and point set correctly
+
+
+
+// Then, return the instance of your TacoBell class
+// Since it conforms to ITrackable

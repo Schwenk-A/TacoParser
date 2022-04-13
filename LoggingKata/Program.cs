@@ -3,6 +3,7 @@ using System.Linq;
 using System.IO;
 using GeoCoordinatePortable;
 
+
 namespace LoggingKata
 {
     class Program
@@ -31,12 +32,59 @@ namespace LoggingKata
 
             // DON'T FORGET TO LOG YOUR STEPS
 
+
+
+
+
             // Now that your Parse method is completed, START BELOW ----------
 
+
+            ITrackable firTacoBell = new TacoBell();
+            ITrackable secTacoBell = new TacoBell();
             // TODO: Create two `ITrackable` variables with initial values of `null`. These will be used to store your two taco bells that are the farthest from each other.
             // Create a `double` variable to store the distance
 
-            // Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
+            double distance = 0;
+
+
+
+            for (int i = 0; i < locations.Length; i++)
+            {
+                var locA = locations[i];
+                var corA = new GeoCoordinate();
+                corA.Latitude = locA.Location.Latitude;
+                corA.Longitude = locA.Location.Longitude;
+
+
+                for (int j = 0; j < locations.Length; j++)
+                {
+                    var locB = locations[j];
+                    var corB = new GeoCoordinate()
+                    {
+                        Latitude = locB.Location.Latitude,
+                        Longitude = locB.Location.Longitude
+                    };
+                    var currentDistance = corA.GetDistanceTo(corB);
+                    if (currentDistance > distance)
+                    {
+                        distance = currentDistance;
+                        firTacoBell = locA;
+                        secTacoBell = locB;
+                    }
+                }
+               
+            }
+
+
+
+
+
+
+            Console.WriteLine($"\n {firTacoBell.Name} and {secTacoBell.Name} are the furthest apart");
+            Console.WriteLine($"They are {distance}kn apart.");
+
+
+
 
             //HINT NESTED LOOPS SECTION---------------------
             // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
@@ -57,3 +105,4 @@ namespace LoggingKata
         }
     }
 }
+// Include the Geolocation toolbox, so you can compare locations: `using GeoCoordinatePortable;`
